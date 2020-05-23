@@ -1,123 +1,113 @@
 <template>
   <v-layout>
-    <v-container  grid-list-lg>
+    <v-container flat  grid-list-lg>
       <v-layout row wrap class="flex_box feature_products"> 
         <v-flex xs12>
           <h2 class="text-xs-center feature_products_title">Check Our <span>Delicious Menu</span></h2>
         </v-flex>
         <v-flex xs12>
-            <v-tabs>
-							<template v-for="item in items1">
-								<v-layout v-if="item.heading" :key="item.heading">
-									<v-flex xs6>
-										<v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
-									</v-flex>
-									<v-flex xs6 class="text-xs-center">
-										<a href="#!" class="body-2 black--text">EDIT</a>
-									</v-flex>
-								</v-layout>
-								<v-list-group
-									v-else-if="item.children"
-									v-model="item.model"
-									:key="item.text"
-									:prepend-icon="item.model ? item.icon : item['icon-alt']"
-									append-icon
-									@click="pageLoad"
-								>
-									<v-list-tile slot="activator">
-										<v-list-tile-content>
-											<v-list-tile-title>{{ item.text }}</v-list-tile-title>
-										</v-list-tile-content>
-									</v-list-tile>
-									<v-list-tile v-for="(child, i) in item.children" :key="i">
-										<v-list-tile-action v-if="child.icon">
-											<v-icon>{{ child.icon }}</v-icon>
-										</v-list-tile-action>
-										<v-list-tile-content>
-											<v-list-tile-title>
-												<router-link
-													:to="{ name: child.link, params: {} }"
-													style="color:rgba(0,0,0,.87)"
-												>{{ child.text }}</router-link>
-											</v-list-tile-title>
-										</v-list-tile-content>
-									</v-list-tile>
-								</v-list-group>
-								<v-list-tile v-else :key="item.category">
-                      <v-tab v-for="item in items1" :key="item.text">
-                        {{ item.text }}
-                      </v-tab>
-                  <v-tab-items>
-									<v-tab-item v-for="(product,index) in products" :key="index">
-                    <v-card class="overlay_container flex_wrap  pa-2">
-                      <v-img :src="product.image" contain></v-img>
-                      <div style="width:100%;" class="flex_bottom text-xs-center pb-2">
-                        <h3 class="headline text-xs-center grey--text text--darken-3">{{product.item_name}}</h3>
-                        <h4 class="grey--text text--darken-3">{{currency}}{{product.price}}</h4>                                           
-                      </div>
-                      
-                      <v-card class="overlay">                       
-                          <h2 style="vertical-align:middle;">{{product.item_name}}</h2>                        
-                          <v-list class="details">
-                          <v-list-tile-action>
-                              <v-btn style="width:100%"  :to="'/product/' + product.id">Details</v-btn>
-                          </v-list-tile-action>
-                          <v-list-tile-action>
-                              <v-btn style="width:100%" class="main_color white--text" @click="addToCart(product)">Add To Cart</v-btn>
-                          </v-list-tile-action>
-                          </v-list>
-                      </v-card>   
-                    </v-card>                 
-									</v-tab-item>
-                  </v-tab-items>
-								</v-list-tile>
-								
-							</template>
+		    <v-card>
+				<v-toolbar flat>
+					<template v-slot:extension>
+
+						<v-tabs v-model="model" centered slider-color="yellow">
+						  <v-tab v-for="(item, index) in items1" :key="index" :href="'#'+item.text">
+                {{ item.text }}
+						  </v-tab>
 						</v-tabs>
+					</template>
+				</v-toolbar>
+
+				
+				<v-tabs-items v-model="model">
+					<v-tab-item v-for="(item, index) in items1" :key="index" :value="item.text">
+							<!-- your this code displays the product information, but there is no way to filter the product by category -->
+              <v-layout row wrap class="flex_box feature_products">
+							<v-flex xs12 sm3 md3 lg3 xl2  class="flex_item" v-for="(product,index) in products" :key="index">
+							  <v-card flat v-if="product.category_name == item.text">
+								  <v-card class="overlay_container flex_wrap  pa-2">
+									<v-img :src="product.image" contain></v-img>
+									<div style="width:100%;" class="flex_bottom text-xs-center pb-2">
+									  <h3 class="headline text-xs-center grey--text text--darken-3">{{product.item_name}}</h3>
+									  <h4 class="grey--text text--darken-3">{{currency}}{{product.price}}</h4>                                           
+									</div>
+									
+									<v-card class="overlay">                       
+										<h2 style="vertical-align:middle;">{{product.item_name}}</h2>                        
+										<v-list class="details">
+										<v-list-tile-action>
+											<v-btn style="width:100%"  :to="'/product/' + product.id">Details</v-btn>
+										</v-list-tile-action>
+										<v-list-tile-action>
+											<v-btn style="width:100%" class="main_color white--text" @click="addToCart(product)">Add To Cart</v-btn>
+										</v-list-tile-action>
+										</v-list>
+									</v-card>   
+								  </v-card> 
+							  </v-card>        					
+							  <v-card v-else>
+							  </v-card>
+							</v-flex> 			
+              </v-layout>			
+
+					  
+					</v-tab-item>
+				</v-tabs-items>							
+				
+			</v-card>
+
         </v-flex>
-        <v-flex xs12 sm3 md3 lg3 xl2  class="flex_item" v-for="(product,index) in products" :key="index">
-          <v-card class="overlay_container flex_wrap  pa-2">
-            <v-img :src="product.image" contain></v-img>
-            <div style="width:100%;" class="flex_bottom text-xs-center pb-2">
-              <h3 class="headline text-xs-center grey--text text--darken-3">{{product.item_name}}</h3>
-              <h4 class="grey--text text--darken-3">{{currency}}{{product.price}}</h4>                                           
-            </div>
-            
-            <v-card class="overlay">                       
-                <h2 style="vertical-align:middle;">{{product.item_name}}</h2>                        
-                <v-list class="details">
-                <v-list-tile-action>
-                    <v-btn style="width:100%"  :to="'/product/' + product.id">Details</v-btn>
-                </v-list-tile-action>
-                <v-list-tile-action>
-                    <v-btn style="width:100%" class="main_color white--text" @click="addToCart(product)">Add To Cart</v-btn>
-                </v-list-tile-action>
-                </v-list>
-            </v-card>   
-          </v-card>                                           
-        </v-flex>        
+		
       </v-layout>
     </v-container>
   </v-layout>
 </template>
    
 <script>
+  import Vue from 'vue'
   import firebase from "firebase";
   import moment from 'moment' 
+  import db, {functions} from '@/firebase/init'
   import MenuNavbar from  '@/components/shop/navbar/MenuNavbar'
   export default {
     data(){
       
-      return{
-        text:null,
+
+      return{	
+        model:'Noodles',  // select your default tab here
+        text: null,
         currency:null,
         products:[],
         cart:this.$store.getters.cart,
         items1:[],
       }
+
     },
     components: {
       MenuNavbar
+    },
+    watch: {
+      model(){
+        console.log(this.model)
+        this.products = []
+        let cref = db.collection('items').orderBy('timestamp', 'desc').where("item_category", "==", this.model)
+        cref.onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+          if(change.type == 'added'){
+            let doc = change.doc
+            this.products.push({
+              id:doc.id,
+              item_name:doc.data().item_name,
+              image:doc.data().image,
+              category_name:doc.data().item_category,
+              price:doc.data().price,
+              quantity:doc.data().quantity,
+              timestamp:moment(doc.data().timestamp).fromNow('lll')
+            })
+          }
+        })
+      })
+      }
     },
     methods: {
       productInCart(product) {
@@ -157,33 +147,10 @@
       counter(){
         return this.$store.getters.counter 
       },
-    },   
+      
+    },
     created(){
       var db = firebase.firestore();
-      // Current Currency   
-      db.collection("settings").doc('config').onSnapshot(doc =>{
-        this.currency = doc.data().currency
-      })
-
-      // Show All Items
-      let cref = db.collection('items').orderBy('timestamp', 'desc').where("featured", "==", true)
-
-      cref.onSnapshot(snapshot => {
-        snapshot.docChanges().forEach(change => {
-          if(change.type == 'added'){
-            let doc = change.doc
-            this.products.push({
-              id:doc.id,
-              item_name:doc.data().item_name,
-              image:doc.data().image,
-              category_name:doc.data().item_category.category_name,
-              price:doc.data().price,
-              quantity:doc.data().quantity,
-              timestamp:moment(doc.data().timestamp).fromNow('lll')
-            })
-          }
-        })
-      })
       // Show All Categories
       let ref = db.collection("item_categories");
       ref.onSnapshot(snapshot => {
@@ -195,14 +162,40 @@
               icon: doc.data().category_icon,            
               text: doc.data().category_name,
               link:'CatProduct',
-              category:doc.data().category_name
-
+              category:doc.data().category_name,
+			        text1: 'Category Name: ' + doc.data().category_name 
             });
           }
-        });
+        }); 
       });
+
+      // Current Currency   
+      db.collection("settings").doc('config').onSnapshot(doc =>{
+        this.currency = doc.data().currency
+      })
+      console.log(this.model)
+      // Show All Items
+      let cref = db.collection('items').where("featured", "==", true).orderBy('timestamp', 'desc')
+      cref.onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+          if(change.type == 'added'){
+            let doc = change.doc
+            this.products.push({
+              id:doc.id,
+              item_name:doc.data().item_name,
+              image:doc.data().image,
+              category_name:doc.data().item_category,
+              price:doc.data().price,
+              quantity:doc.data().quantity,
+              timestamp:moment(doc.data().timestamp).fromNow('lll')
+            })
+          }
+        })
+      })
+
     } 
   }
+  
 </script>
 
 <style>

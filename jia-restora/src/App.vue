@@ -12,8 +12,15 @@
 </template>
 
 <script>
+import {functions} from '@/firebase/init'
 export default {
   name: 'App',
+  data() {
+     return {     
+        items: [],
+      };
+  },
+  
   metaInfo: {    
     title: 'Restora',
     meta: [
@@ -22,7 +29,9 @@ export default {
       {name: 'description', content: 'Complete E-commere soltuion with business management software.'}
     ]
   }
+  
 }
+ 
 </script>
 
 <style>

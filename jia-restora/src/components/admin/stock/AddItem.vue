@@ -10,7 +10,7 @@
                 <v-layout align-center>
                   <v-text-field
                     prepend-icon="shopping_cart"
-                    placeholder="Item Name"
+                    placeholder="[[item_name]]"
                     required
                     v-model="item_name"
                   ></v-text-field>
@@ -21,7 +21,7 @@
                   <v-text-field
                     type="number"
                     prepend-icon="local_atm"
-                    placeholder="Price"
+                    placeholder="[[price]]"
                     required
                     v-model="price"
                   ></v-text-field>
@@ -38,6 +38,11 @@
                   single-line                              
                 ></v-select>
               </v-flex>
+              <v-flex xs12 align-center justify-space-between>
+                <v-layout align-center>
+                  <img v-bind:src="img_url">
+                </v-layout>
+              </v-flex>           
               <v-flex xs12 align-center justify-space-between>               
                 <h3>Upload Item Image</h3>
                 <v-layout align-center>                                   
@@ -73,16 +78,49 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Navbar from '@/components/admin/navbar/Navbar'
 import firebase from "firebase";
+import db, {functions} from '@/firebase/init'
 import moment from 'moment'
 import { VueEditor } from "vue2-editor";
+var vm = new Vue({
+    data:{
+      result1: [],
+      count: 0
+    }
+  })
 export default {
   name:'AddItem',
   components:{
     Navbar,VueEditor
   },
   data(){
+    //Added by CodingHeros
+    var result = []
+    var getDetailsItems = functions.httpsCallable('getDetailsItems')
+    var paramMap = []
+    paramMap.push({key: 'appKey', value: '02e6d1efd0421de9d49447106cbc90ec'})
+    paramMap.push({key: 'shopIdenty', value: 810137674})
+    paramMap.push({key: 'version', value: '1.0'})
+    getDetailsItems({
+      paramMap: paramMap,
+      token: "7ec322a21d93047605537d1d363d206c"
+    }).then(response => {
+    console.log('response: ', response)
+    if(vm.count == 0)
+    {
+      vm.result1 = response.data.result }
+      this.item_name = vm.result1.dishTOList[vm.result1.dishTOList.length-1].name
+      this.price = vm.result1.dishTOList[vm.result1.dishTOList.length-1].price
+      this.img_url = vm.result1.dishTOList[vm.result1.dishTOList.length-1].imgUrl
+      console.log(vm.result1.dishTOList[vm.result1.dishTOList.length-1].name)
+      if (this.img_url!=null)
+      {
+        this.image=this.img_url
+        console.log(image)
+      }
+    })
     return{
       dialog:null,
       item_name:null,
@@ -97,6 +135,7 @@ export default {
       item_categories:[],
       currency:null,
       loading: null,
+      img_url: null,
       content: "<h1>Some initial content</h1>"
     }
   },
@@ -129,9 +168,12 @@ export default {
             this.quantity=null
             this.customer=null
           }
+          vm.count=1
+          vm.result1.dishTOList.splice(vm.result1.dishTOList.length-1)
           this.$router.push({ name: 'Items'})
       },
       uploadImage(e){
+        
         if(e.target.files[0]){
           
             let file = e.target.files[0];

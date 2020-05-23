@@ -18,3 +18,4 @@ import firebase from "firebase";
  firebaseApp.firestore().settings({ timestampsInSnapshots:true})
 
  export default firebaseApp.firestore()
+ export var functions = firebaseApp.functions()

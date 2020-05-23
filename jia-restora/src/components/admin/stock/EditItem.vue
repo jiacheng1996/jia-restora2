@@ -49,6 +49,11 @@
                     single-line
                 ></v-select>
               </v-flex>
+              <v-flex xs12 align-center justify-space-between>
+                <v-layout align-center>
+                  <img v-bind:src="item.image">
+                </v-layout>
+              </v-flex>     
               <v-flex xs12 align-center justify-space-between>               
                 <h3>Upload Item Image</h3>
                 <v-layout align-center>                                   

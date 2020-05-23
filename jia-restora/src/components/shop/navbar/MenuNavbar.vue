@@ -1,8 +1,8 @@
 <template>
-	<v-layout column justify-center>
-			<v-spacer></v-spacer>
+	<v-layout>
+			<v-spacer>
 				<div>
-						<v-toolbar>
+						<v-tabs>
 							<template v-for="item in items">
 								<v-layout v-if="item.heading" :key="item.heading">
 									<v-flex xs6>
@@ -40,40 +40,41 @@
 									</v-list-tile>
 								</v-list-group>
 								<v-list-tile v-else :key="item.text">
-									<v-list-tile-action>
-										<router-link :to="{ name: item.link, params: {category:item.category} }">
-											<v-icon>{{ item.icon }}</v-icon>
-										</router-link>
-									</v-list-tile-action>
-										<a @click="makeActive(item)">
-										<v-list-tile-content>
-											<v-list-tile-title>{{ item.text }}</v-list-tile-title>
-										</v-list-tile-content>
-										</a>
+									<router-link :to="{ name: item.link, params: {category:item.category} }">
+										<v-icon>{{ item.icon }}</v-icon>
+									</router-link>
+									<v-tab to="/featuredproducts">
+										{{ item.text }}
+									</v-tab>
+									<router-view></router-view>
 								</v-list-tile>
+								
 							</template>
-						</v-toolbar>
+						</v-tabs>
 				</div>
+			</v-spacer>
 	</v-layout>
 </template>
 	 
 <script> 
  import db from "@/firebase/init";
  import firebase from "firebase";
- import {FeaturedProducts} from "@/components/shop/products/FeaturedProducts"
+ import FeaturedProducts from  '@/components/shop/products/FeaturedProducts'
   export default {
     name: "Navbar",
     data() {
+
       return {
+		tab: null,
         userLoggedin: false,     
-				items: [],
-      };
+		items: [],
+		routes:[{
+			path: '/featuredproducts',
+			component: FeaturedProducts
+		}]
+	  };
 		},
-		props: {active},
     methods: {
-			makeActive(item){
-				this.active = item;
-			},
       pageLoad() {
         location.reload()
       }
