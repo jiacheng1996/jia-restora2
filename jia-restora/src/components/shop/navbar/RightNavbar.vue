@@ -3,7 +3,7 @@
     <v-btn small @click.stop="drawer = !drawer" class="shop_card_section">
       <div class="shop_card">
           <v-icon>add_shopping_cart</v-icon>
-          <h5>{{cart.length}} {{cart.length > 1 ? 'Items':'Item'}}</h5>
+          <h5>{{calculateCartQty()}} {{cart.length > 1 ? 'Items':'Item'}}</h5>
           <p>{{currency}}{{cartTotal}}</p>
       </div>
     </v-btn>
@@ -22,7 +22,7 @@
                 <v-icon class="white--text">shopping_cart</v-icon>
               </v-list-tile-action>
               <v-list-tile-title>
-                  {{cart.length}} {{cart.length > 1 ? 'Items':'Item'}}
+                  {{calculateCartQty()}} {{cart.length > 1 ? 'Items':'Item'}}
               </v-list-tile-title>
               <v-btn class="white" small @click.stop="drawer = !drawer"><span>close</span></v-btn>
           </v-list-tile>
@@ -94,6 +94,13 @@
       }
     },
     methods:{
+      calculateCartQty(){
+        var qty = null
+        for (let i = 0; i < this.cart.length; i++){
+          qty += this.cart[i].quantity
+        }
+        return qty
+      },
       removeCart(index){
           this.$store.commit('removeCart', index)     
       },

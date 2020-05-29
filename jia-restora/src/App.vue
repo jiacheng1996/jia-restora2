@@ -13,6 +13,9 @@
 
 <script>
 import {functions} from '@/firebase/init'
+import checkbox from 'vue-material-checkbox'
+import Vue from 'vue'
+Vue.use(checkbox)
 export default {
   name: 'App',
   data() {

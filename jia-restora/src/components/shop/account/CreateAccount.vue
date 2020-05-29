@@ -32,26 +32,6 @@
                     <v-layout row>
                       <v-flex xs12>
                         <v-text-field
-                          v-model="country"
-                          name="country"
-                          placeholder="Country"
-                          type="text"
-                          required></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                      <v-flex xs12>
-                        <v-text-field
-                          v-model="city"
-                          name="city"
-                          placeholder="City"
-                          type="text"
-                          required></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                      <v-flex xs12>
-                        <v-text-field
                           v-model="address"
                           name="address"
                           placeholder="Address"

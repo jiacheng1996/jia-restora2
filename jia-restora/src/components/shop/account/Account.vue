@@ -37,18 +37,6 @@
                         <b>Delivery Address:</b> {{this.account.address}}
                     </v-flex>
                   </v-layout>
-                  <br>
-                  <v-layout row>
-                    <v-flex xs12>
-                        <b>City:</b> {{this.account.city}}
-                    </v-flex>
-                  </v-layout>
-                  <br>
-                  <v-layout row>
-                    <v-flex xs12>
-                        <b>Country:</b> {{this.account.country}}
-                    </v-flex>
-                  </v-layout>
               </v-container>
             </v-card-text>
           </v-card>

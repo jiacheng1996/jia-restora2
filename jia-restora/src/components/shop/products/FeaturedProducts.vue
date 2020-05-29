@@ -74,7 +74,7 @@
       
 
       return{	
-        model:'Noodles',  // select your default tab here
+        model:'Sushi',  // select your default tab here
         text: null,
         currency:null,
         products:[],

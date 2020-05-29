@@ -207,7 +207,6 @@
         <div class="menu_item hidden-sm-and-down pa-0">
           <router-link to="/"><v-btn flat>HOME</v-btn></router-link>          
           <router-link to="/about"><v-btn flat>ABOUT</v-btn></router-link>          
-          <router-link to="/menu"><v-btn flat>Menu</v-btn></router-link> 
           <router-link to="/cart"><v-btn flat>CART</v-btn></router-link>        
           <router-link to="/sign-in"><v-btn v-if="userLoggedin == false" flat>SIGNIN</v-btn></router-link>
           <router-link to="/create-account"><v-btn v-if="userLoggedin == false" flat>CREATE ACCOUNT</v-btn></router-link>

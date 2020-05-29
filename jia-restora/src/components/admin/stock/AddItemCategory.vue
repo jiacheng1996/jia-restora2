@@ -50,11 +50,11 @@
         var getDetails = functions.httpsCallable('getDetails')
         var paramMap = []
         paramMap.push({key: 'appKey', value: '02e6d1efd0421de9d49447106cbc90ec'})
-        paramMap.push({key: 'shopIdenty', value: 810137674})
+        paramMap.push({key: 'shopIdenty', value: 810137705})
         paramMap.push({key: 'version', value: '1.0'})
         getDetails({
           paramMap: paramMap,
-          token: "7ec322a21d93047605537d1d363d206c"
+          token: "80199e23e7cf5a346cf9d8ff67b61039"
         }).then(response => {
           console.log('response: ', response)
 
